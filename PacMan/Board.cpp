@@ -7,18 +7,18 @@
 using namespace std;
 
 
-void Update_status_all(const p_ListBoardObjects aList)
+void Update_status_all(const p_ListBoardObjects Board_list)
 {
 	p_BoardObject toIterate;
 
-	toIterate = aList->theFirst();
+	toIterate = Board_list->Get_First_Object();
 
 	while (NULL != toIterate)
 	{
 		toIterate->Update_status();
 
 		//cerr << "Update_statusing "<< toIterate->get_x() <<"," <<toIterate->get_y() << std::endl;
-		toIterate = aList->theNext();
+		toIterate = Board_list->Get_Next_Object();
 
 	}
 
@@ -29,7 +29,7 @@ char game_all(const p_ListBoardObjects aList)
 
 	p_BoardObject toIterate;
 
-	toIterate = aList->theFirst();
+	toIterate = aList->Get_First_Object();
 
 	ObjectColours board_color = BACKGROUND;
 
@@ -38,7 +38,7 @@ char game_all(const p_ListBoardObjects aList)
 		if (BACKGROUND != toIterate->get_Color())
 			board_color = toIterate->get_Color();
 
-		toIterate = aList->theNext();
+		toIterate = aList->Get_Next_Object();
 	}
 
 	switch (board_color)
@@ -52,7 +52,7 @@ char game_all(const p_ListBoardObjects aList)
 	}
 }
 
-void Board::move(char command)
+void Board::move(const char command)
 {
 	if ('p' != command)
 	{
@@ -61,12 +61,12 @@ void Board::move(char command)
 		case 'e': if (player_id_x <= 0) break;
 				  else
 		{
-			if (!mySpace[player_id_x - 1][player_id_y]->isThereAWall())
+			if (!Map_Array[player_id_x - 1][player_id_y]->isThereAWall())
 			{
-				mySpace[player_id_x][player_id_y]->removeOnePlayer();
+				Map_Array[player_id_x][player_id_y]->removeOnePlayer();
 				player_id_x--;
 				startPlayer = new Player(player_id_x, player_id_y);
-				mySpace[player_id_x][player_id_y]->addOne(startPlayer);
+				Map_Array[player_id_x][player_id_y]->add_One_Object(startPlayer);
 
 			}
 		}
@@ -74,41 +74,41 @@ void Board::move(char command)
 		case 'x': if (player_id_x >= the_rows - 1) break;
 				  else
 		{
-			if (!mySpace[player_id_x + 1][player_id_y]->isThereAWall())
+			if (!Map_Array[player_id_x + 1][player_id_y]->isThereAWall())
 			{
-				mySpace[player_id_x][player_id_y]->removeOnePlayer();
+				Map_Array[player_id_x][player_id_y]->removeOnePlayer();
 				player_id_x++;
 				startPlayer = new Player(player_id_x, player_id_y);
-				mySpace[player_id_x][player_id_y]->addOne(startPlayer);
+				Map_Array[player_id_x][player_id_y]->add_One_Object(startPlayer);
 			}
 		}
 				  break;
 		case 's': if (player_id_y <= 0) break;
 				  else
 		{
-			if (!mySpace[player_id_x][player_id_y - 1]->isThereAWall())
+			if (!Map_Array[player_id_x][player_id_y - 1]->isThereAWall())
 			{
-				mySpace[player_id_x][player_id_y]->removeOnePlayer();
+				Map_Array[player_id_x][player_id_y]->removeOnePlayer();
 				player_id_y--;
 				startPlayer = new Player(player_id_x, player_id_y);
-				mySpace[player_id_x][player_id_y]->addOne(startPlayer);
+				Map_Array[player_id_x][player_id_y]->add_One_Object(startPlayer);
 			}
 		}
 				  break;
 		case 'd': if (player_id_y >= the_cols - 1) break;
 				  else
 		{
-			if (!mySpace[player_id_x][player_id_y + 1]->isThereAWall())
+			if (!Map_Array[player_id_x][player_id_y + 1]->isThereAWall())
 			{
-				mySpace[player_id_x][player_id_y]->removeOnePlayer();
+				Map_Array[player_id_x][player_id_y]->removeOnePlayer();
 				player_id_y++;
 				startPlayer = new Player(player_id_x, player_id_y);
-				mySpace[player_id_x][player_id_y]->addOne(startPlayer);
+				Map_Array[player_id_x][player_id_y]->add_One_Object(startPlayer);
 			}
 		}
 				  break;
 		}
-		int cookieValue = mySpace[player_id_x][player_id_y]->isCookieValue();
+		int cookieValue = Map_Array[player_id_x][player_id_y]->isCookieValue();
 		if (cookieValue > 0)
 		{
 			std::cerr << "Ate a cookie\n";
@@ -128,8 +128,8 @@ void Board::paint()
 		row = "";
 		for (int j = 0; j < the_cols; j++)
 		{
-			Update_status_all(mySpace[i][j]);
-			draw = game_all(mySpace[i][j]);
+			Update_status_all(Map_Array[i][j]);
+			draw = game_all(Map_Array[i][j]);
 			row.push_back(draw);
 		}
 		cout << row << endl;

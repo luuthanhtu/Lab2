@@ -13,11 +13,11 @@ class  ListBoardObjects
 	std::vector <p_BoardObject> list;
 	std::vector < p_BoardObject>::iterator internalIterator;
 public:
-	ListBoardObjects(p_BoardObject theFirst);
+	ListBoardObjects(p_BoardObject Get_First_Object);
 
-	p_BoardObject theFirst();
-	p_BoardObject theNext();
-	void addOne(const p_BoardObject newOne);
+	p_BoardObject Get_First_Object();
+	p_BoardObject Get_Next_Object();
+	void add_One_Object(const p_BoardObject newOne);
 	void removeOnePlayer();
 	bool isThereAWall();
 	int isCookieValue();

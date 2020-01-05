@@ -9,7 +9,7 @@ ListBoardObjects::ListBoardObjects(const p_BoardObject newOne) :list()
 	list.insert(it, newOne);
 }
 
-p_BoardObject ListBoardObjects::theFirst()
+p_BoardObject ListBoardObjects::Get_First_Object()
 {
 	if (0 < list.size())
 	{
@@ -21,14 +21,14 @@ p_BoardObject ListBoardObjects::theFirst()
 }
 
 
-void ListBoardObjects::addOne(const p_BoardObject newOne)
+void ListBoardObjects::add_One_Object(const p_BoardObject newOne)
 {
 	std::vector <p_BoardObject>::iterator it;
 	it = list.begin();
 	list.insert(it, newOne);
 }
 
-p_BoardObject ListBoardObjects::theNext()
+p_BoardObject ListBoardObjects::Get_Next_Object()
 {
 	internalIterator++;
 	if (internalIterator < list.end())
